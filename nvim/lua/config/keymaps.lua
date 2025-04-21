@@ -5,11 +5,27 @@ map("n", "<leader>w", ":w<CR>", { noremap = true, silent = true, desc = "save th
 ----------------------------------------------------
 ---TELESCOPE
 -----------------------------------------------------
-local telescopeBuiltin = require("telescope.builtin")
+local builtin = require("telescope.builtin")
 
-map("n", "<C-p>", telescopeBuiltin.find_files, { desc = "Find files" })
-map("n", "<leader>ff", telescopeBuiltin.find_files, { desc = "Find files" })
-map("n", "<leader>fg", telescopeBuiltin.live_grep, { desc = "Live Grep" })
+-- Utility to get git root or fallback to cwd
+local function get_project_root()
+    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+    if vim.v.shell_error == 0 then
+        return git_root
+    else
+        return vim.loop.cwd() -- fallback to nvim's current working directory
+    end
+end
+
+-- Ctrl+P and <leader>ff => search from project root (not just cwd or file dir)
+map("n", "<C-p>", function()
+    builtin.find_files({ cwd = get_project_root(), hidden = true })
+end, { desc = "Find files from project root" })
+
+map("n", "<leader>ff", function()
+    builtin.find_files({ cwd = get_project_root(), hidden = true })
+end, { desc = "Find files from project root" })
+map("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
 --------------------------------------------- Enhanced clipboard yanking
 map("n", "<leader>y", '"+y', { desc = "Yank line to clipboard" })
 map("v", "<leader>y", '"+y', { desc = "Yank selection to clipboard" })
@@ -105,5 +121,48 @@ map("n", "<C-Up>", "<Plug>(VM-Add-Cursor-Up)", opts)                       -- Ad
 map("n", "<leader>mm", "<Plug>(VM-Select-All)", opts)                      -- Select all occurrences
 map("n", "<leader>ms", "<Plug>(VM-Start-Regex-Search)", opts)              -- Start regex search
 map("n", "<leader>md", "<Plug>(VM-Remove-Cursor)", opts)                   -- Remove last cursor
+-- Clear all notifications
+vim.keymap.set("n", "<leader>nc", function()
+    require("noice").dismiss({ silent = true, pending = true })
+end, { desc = "🧹 Clear Noice Notifications" })
 
+-- View Noice notification history
+vim.keymap.set("n", "<leader>nh", function()
+    require("noice").cmd("history")
+end, { desc = "📜 Noice Notification History" })
+
+local Terminal = require("toggleterm.terminal").Terminal
+
+local term1 = Terminal:new({ count = 1, direction = "float", hidden = true })
+local term2 = Terminal:new({ count = 2, direction = "float", hidden = true })
+local term3 = Terminal:new({ count = 3, direction = "float", hidden = true })
+local term4 = Terminal:new({ count = 4, direction = "float", hidden = true })
+local term5 = Terminal:new({ count = 5, direction = "float", hidden = true })
+
+function _G.toggle_term1() term1:toggle() end
+
+function _G.toggle_term2() term2:toggle() end
+
+function _G.toggle_term3() term3:toggle() end
+
+function _G.toggle_term4() term4:toggle() end
+
+function _G.toggle_term5() term5:toggle() end
+
+-- Normal mode mappings
+vim.api.nvim_set_keymap("n", "<A-1>", "<cmd>lua toggle_term1()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-2>", "<cmd>lua toggle_term2()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-3>", "<cmd>lua toggle_term3()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-4>", "<cmd>lua toggle_term4()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-5>", "<cmd>lua toggle_term5()<CR>", { noremap = true, silent = true })
+
+-- Terminal mode mappings
+vim.api.nvim_set_keymap("t", "<A-1>", "<cmd>lua toggle_term1()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<A-2>", "<cmd>lua toggle_term2()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<A-3>", "<cmd>lua toggle_term3()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<A-4>", "<cmd>lua toggle_term4()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<A-5>", "<cmd>lua toggle_term5()<CR>", { noremap = true, silent = true })
+
+-- Optional: exit terminal to normal mode with <Esc>
+vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 return {}
