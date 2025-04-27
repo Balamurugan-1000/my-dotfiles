@@ -1,31 +1,40 @@
-vim.opt.tabstop = 4       -- Number of spaces for a tab
-vim.opt.shiftwidth = 4    -- Indentation amount for > and <
-vim.opt.softtabstop = 4   -- Backspace treats tab as 4 spaces
-vim.opt.expandtab = true  -- Convert tabs to spaces
--- Enable signcolumn to prevent text shifting when adding symbols
-vim.wo.signcolumn = "yes" -- Always show the sign column
+vim.api.nvim_set_hl(0, "SnacksHeader", { fg = "#FF0000" }) -- Red color
+local opt = vim.opt
 
--- Optionally, if you want extra space in front of the line numbers
-vim.wo.numberwidth = 4 -- Adjust the width to add more space
+-- 🧠 Tab & Indentation
+opt.expandtab = true -- use spaces instead of tabs
+opt.tabstop = 2 -- 2 spaces for tabs
+opt.shiftwidth = 2 -- 2 spaces for >> <<
+opt.smartindent = true -- auto smart indenting
+opt.autoindent = true -- maintain indent from previous line
 
--- Auto-indent & Smart indent
-vim.opt.smartindent = true -- Enable smart indentation
-vim.opt.autoindent = true  -- Copy indent from the previous line
-vim.opt.termguicolors = true
--- Disable line wrapping (optional)
-vim.opt.wrap = false
--- Enable absolute line numbers
-vim.wo.number = true -- This enables normal mode line numbers
+-- 🔍 Search
+opt.ignorecase = true -- ignore case when searching...
+opt.smartcase = true -- ...unless there's a capital letter
+opt.incsearch = true -- live search preview
+opt.hlsearch = false -- don’t highlight matches after search
 
--- Enable relative line numbers
-vim.wo.relativenumber = true -- This enables relative line numbers
+-- 📦 Better File Behavior
+opt.clipboard = "unnamedplus" -- use system clipboard 😎
+opt.undofile = true -- persistent undo across sessions
+opt.swapfile = false -- no swap files
+opt.backup = false -- no backup files
 
--- Disable Netrw
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_netrwScriptPlugin = 1 -- <-- Ensure this is included too!
--- vim.g.mkdp_auto_start = 1
+-- 🧭 Navigation
+opt.scrolloff = 8 -- keep cursor 8 lines from screen edge
+opt.sidescrolloff = 8 -- same but horizontal
+opt.splitbelow = true -- open horizontal splits below
+opt.splitright = true -- open vertical splits to the right
 
-vim.opt.cmdheight = 0
+-- ⌛ Performance
+opt.updatetime = 250 -- faster completion & diagnostics
+opt.timeoutlen = 400 -- shorter timeout for mapped sequences
+
+-- 🧙 Folding (if you're into that)
+opt.foldmethod = "indent" -- fold based on indent
+opt.foldlevel = 99 -- open all folds by default
+opt.guicursor = "n-v-c-sm-i-ci-ve:block,r-cr-o:hor20"
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 return {}
