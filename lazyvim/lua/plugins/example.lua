@@ -28,7 +28,7 @@ return {
   },
 
   -- disable trouble
-  { "folke/trouble.nvim",      enabled = false },
+  { "folke/trouble.nvim", enabled = true },
 
   -- override nvim-cmp and add cmp-emoji
   {
@@ -84,7 +84,7 @@ return {
       init = function()
         require("lazyvim.util").lsp.on_attach(function(_, buffer)
           -- stylua: ignore
-          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
           vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
         end)
       end,
@@ -133,6 +133,7 @@ return {
         "tsx",
         "typescript",
         "vim",
+        "jinja",
         "yaml",
       },
     },
@@ -148,6 +149,8 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
+        "py",
+        "jinja",
       })
     end,
   },
@@ -190,8 +193,10 @@ return {
         "stylua",
         "shellcheck",
         "shfmt",
+        "djlint", -- ✅ Add djlint
+        "jinja-lsp", -- ✅ Add jinja-lsp
+        "pyright",
         "flake8",
-        "pyright"
       },
     },
   },
