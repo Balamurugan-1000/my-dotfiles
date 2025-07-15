@@ -1,30 +1,29 @@
 return {
   "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  ---@type snacks.Config
   opts = {
-    dashboard = {
-      preset = {
-        header = table.concat({
-          " █████  ███████ ████████ ██████   ██████ ",
-          "██   ██ ██         ██    ██   ██ ██    ██",
-          "███████ ███████    ██    ██████  ██    ██",
-          "██   ██      ██    ██    ██   ██ ██    ██",
-          "██   ██ ███████    ██    ██   ██  ██████ ",
-          "",
-          "███    ██ ██    ██ ██ ███    ███",
-          "████   ██ ██    ██ ██ ████  ████",
-          "██ ██  ██ ██    ██ ██ ██ ████ ██",
-          "██  ██ ██  ██  ██  ██ ██  ██  ██",
-          "██   ████   ████   ██ ██      ██",
-        }, "\n"),
-        actions = {
-          { icon = "👾 ", desc = "Activate Alien (Projects)", action = "Telescope projects" },
-          { icon = "🧬 ", desc = "DNA Scan (Find Files)", action = "Telescope find_files" },
-          { icon = "🔬 ", desc = "Analyze Logs (Live Grep)", action = "Telescope live_grep" },
-          { icon = "🧠 ", desc = "Memory Recall (Recent Files)", action = "Telescope oldfiles" },
-          { icon = "🛠️ ", desc = "Tweak Omnitrix (Config)", action = "edit $MYVIMRC" },
-          { icon = "⚡ ", desc = "Power Core (Lazy Plugins)", action = "Lazy" },
+    bigfile = { enabled = true },
+    dashboard = { enabled = true },
+    explorer = { enabled = true },
+    indent = { enabled = true },
+    input = { enabled = true },
+    picker = {
+      enabled = true,
+      backend = "telescope", -- 👈 USE TELESCOPE UI
+      sources = {
+        explorer = {
+          hidden = true, -- 👈 show hidden dotfiles
+          ignored = true, -- 👈 show .gitignored files
         },
       },
     },
+    notifier = { enabled = false },
+    quickfile = { enabled = true },
+    scope = { enabled = true },
+    scroll = { enabled = true },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
   },
 }
